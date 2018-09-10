@@ -12,6 +12,29 @@
 
 #include "lemin.h"
 
+void	check_links2(char *str, t_room *rooms)
+{
+	t_room *temp;
+
+	temp = rooms;
+	while (temp)
+	{
+		if (!ft_strcmp(temp->room, str))
+			return ; ;
+		temp = temp->next;
+	}
+	error();
+}
+
+void	check_link(char **str, t_room *rooms)
+{
+	int		i;
+
+	i = -1;
+	while (str[++i])
+		check_links2(str[i], rooms);
+}
+
 t_links		*create_links(char **val)
 {
 	t_links	*new;
@@ -22,12 +45,15 @@ t_links		*create_links(char **val)
 	return (new);
 }
 
-t_links	*add_link(t_links *links, char *line)
+t_links	*add_link(t_links *links, char *line, t_room *rooms)
 {
 	t_links	*new;
 	t_links	*temp;
+	char	**str;
 
-	new = create_links(ft_strsplit(line, '-'));
+	str = ft_strsplit(line, '-');
+	check_link(str, rooms);
+	new = create_links(str);
 	temp = links;
 	if (links == NULL)
 		links = new;

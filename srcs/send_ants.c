@@ -40,29 +40,18 @@ t_paths	*move_ants(t_paths *paths, int no_paths, t_info *info)
 			temp->ant = info->cur_ant;
 		else
 			temp->ant = 0;
-		while (1)
+		while (temp->next)
 		{
-			if (!temp->next)
-				break ;
 			temp = temp->next;
 			move1 = temp->ant;
 			temp->ant = move;
 			move = move1;
 		}
-		temp1 = temp1->next;
-	}
-	i = -1;
-	temp1 = paths;
-	while (++i < no_paths)
-	{
-		temp = temp1->path;
-		while (1)
+		while (temp->prev)
 		{
 			if (temp->ant > 0 && ft_strcmp(temp->door, info->start))
 				print_ant(temp->ant, temp->door);
-			if (!temp->next)
-				break ;
-			temp = temp->next;
+			temp = temp->prev;
 		}
 		temp1 = temp1->next;
 	}

@@ -12,25 +12,27 @@
 
 #include "lemin.h"
 
-t_room		*create(char *val)
+t_room		*create(char *val, int x, int y)
 {
 	t_room	*new;
 
 	new = (t_room *)malloc(sizeof(t_room));
 	new->room = ft_strdup(val);
 	new->visited = 0;
+	new->x = x;
+	new->y = y;
 	new->neighbours = NULL;
 	new->no_neighbours = 0;
 	new->next = NULL;
 	return (new);
 }
 
-t_room		*add_end(t_room *head, char *val)
+t_room		*add_end(t_room *head, char *val, int x, int y)
 {
 	t_room	*new;
 	t_room	*temp;
 
-	new = create(val);
+	new = create(val, x, y);
 	temp = head;
 	if (head == NULL)
 		head = new;
@@ -43,11 +45,11 @@ t_room		*add_end(t_room *head, char *val)
 	return (head);
 }
 
-t_room		*add_begin(t_room *head, char *val)
+t_room		*add_begin(t_room *head, char *val, int x, int y)
 {
 	t_room *new;
 
-	new = create(val);
+	new = create(val, x, y);
 	new->next = head;
 	return (new);
 }

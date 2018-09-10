@@ -36,8 +36,8 @@ int		main(void)
 	t_info	*info;
 	t_room	*rooms;
 	t_links	*links;
+	t_paths *temp_paths;
 	t_paths *paths;
-	t_paths *paths_temp;
 	int		j;
 
 	info = (t_info *)malloc(sizeof(t_info));
@@ -47,7 +47,9 @@ int		main(void)
 	rooms = NULL;
 	links = NULL;
 	info = parsing(info, &rooms, &links);
-	rooms = get_neighbour(rooms, links);
+	if (!rooms || !links || info->stt != 2 || info->ed != 2)
+		error();
+	rooms = get_neighbour(rooms, links, info);
 	info->rooms = rooms;
 	info->links = links;
 	info->paths = 0;
@@ -55,11 +57,15 @@ int		main(void)
 	paths = NULL;
 	while(j)
 	{
-		paths_temp = find_paths(&info);
-		paths = add_end_paths(paths, paths_temp);
+		temp_paths = find_paths(&info);
+		if (!temp_paths->path)
+			break ;
+		paths = add_end_paths(paths, temp_paths);
 		info->paths++;
 		j--;
 	}
+	if (!paths || paths->path == NULL)
+		error();
 	send_ants(info, paths);
 	free_rooms(&info);
 	free_links(&info);

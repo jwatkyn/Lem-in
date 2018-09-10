@@ -96,15 +96,21 @@ t_paths	*remove_visited(t_paths *paths)
 	return (paths);
 }
 
-t_paths	*dijkstra(t_paths *paths, char *end)
+t_paths	*dijkstra(t_paths *paths, char *end, char *start)
 {
 	int		i;
 	int		k;
 	t_room	*temp;
+	t_path	*temp3;
 
 	while (ft_strcmp(path_end(paths)->door, end))
 	{
 		i = no_doors(paths, path_end(paths));
+		if (!ft_strcmp(path_end(paths)->door, start) && i == 0)
+		{
+			paths->path = NULL;
+			break ;
+		}
 		if (i)
 		{
 			temp = paths->rooms;
@@ -116,7 +122,9 @@ t_paths	*dijkstra(t_paths *paths, char *end)
 				if (!visited(paths, temp->neighbours[k]))
 				{
 					temp->visited = 1;
-					path_end(paths)->next = create_path(temp->neighbours[k]);
+					temp3 = create_path(temp->neighbours[k]);
+					temp3->prev = path_end(paths);
+					path_end(paths)->next = temp3;
 					break ;
 				}
 				else if (k == temp->no_neighbours)

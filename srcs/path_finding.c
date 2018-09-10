@@ -20,6 +20,7 @@ t_path	*create_path(char *val)
 	new->door = val;
 	new->ant = 0;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
@@ -49,12 +50,10 @@ int		no_paths(t_info *info)
 t_paths	*find_paths(t_info **info)
 {
 	t_paths	*paths;
-	t_paths	*paths_temp;
 
 	paths = (t_paths *)malloc(sizeof(t_paths));
 	paths->path = create_path((*info)->start);
 	paths->rooms = (*info)->rooms;
-	paths_temp = paths;
-	paths = dijkstra(paths_temp, (*info)->end);
+	paths = dijkstra(paths, (*info)->end, (*info)->start);
 	return (paths);
 }

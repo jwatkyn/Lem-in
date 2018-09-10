@@ -9,7 +9,8 @@ SRCS = srcs/lemin.c \
 		srcs/dijkstra.c \
 		srcs/deleting.c \
 		srcs/send_ants.c \
-		srcs/free_paths.c 
+		srcs/free_paths.c \
+		srcs/error.c 
 
 FLAGS = -Wall -Wextra -Werror -I./includes
 

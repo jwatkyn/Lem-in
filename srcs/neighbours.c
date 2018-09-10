@@ -12,6 +12,23 @@
 
 #include "lemin.h"
 
+void	check_neighbours(t_room *rooms, t_info *info)
+{
+	t_room *temp;
+
+	temp = rooms;
+	while (temp)
+	{
+		if (!ft_strcmp(temp->room, info->start))
+			if (temp->no_neighbours == 0)
+				error();
+		if (!ft_strcmp(temp->room, info->end))
+			if (temp->no_neighbours == 0)
+				error();
+		temp = temp->next;
+	}
+}
+
 char	*ret_neighbour(t_links **links, char *origin)
 {
 	while ((*links)->next)
@@ -49,7 +66,7 @@ int		get_link_no(t_links *links, char *origin)
 	return (j);	
 }
 
-t_room	*get_neighbour(t_room *rooms, t_links *links)
+t_room	*get_neighbour(t_room *rooms, t_links *links, t_info *info)
 {
 	t_room	*temp;
 	t_links	*temp2;
@@ -77,5 +94,6 @@ t_room	*get_neighbour(t_room *rooms, t_links *links)
 			break ;
 		temp = temp->next;
 	}
+	check_neighbours(rooms, info);
 	return (rooms);
 }

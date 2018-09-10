@@ -30,6 +30,7 @@ struct 				s_path
 	char			*door;
 	int				ant;
 	struct s_path	*next;
+	struct s_path	*prev;
 };
 
 typedef struct		s_paths
@@ -42,6 +43,8 @@ typedef struct		s_paths
 struct				s_room
 {
 	char			*room;
+	int				x;
+	int				y;
 	int				visited;
 	char			**neighbours;
 	int				no_neighbours;
@@ -69,16 +72,16 @@ typedef struct		s_route
 }					t_route;
 
 t_info		*parsing(t_info *info, t_room **rooms, t_links **links);
-t_room		*create(char *val);
-t_room		*add_end(t_room *head, char *val);
-t_room		*add_begin(t_room *head, char *val);
+t_room		*create(char *val, int x, int y);
+t_room		*add_end(t_room *head, char *val, int x, int y);
+t_room		*add_begin(t_room *head, char *val, int x, int y);
 t_room		*del_end(t_room *head);
 t_room		*del_begin(t_room *head);
-t_links		*add_link(t_links *links, char *line);
-t_room		*get_neighbour(t_room *rooms, t_links *links);
+t_links		*add_link(t_links *links, char *line, t_room *rooms);
+t_room		*get_neighbour(t_room *rooms, t_links *links, t_info *info);
 t_paths		*find_paths(t_info **info);
 t_path		*create_path(char *val);
-t_paths		*dijkstra(t_paths *paths, char *end);
+t_paths		*dijkstra(t_paths *paths, char *end, char *start);
 t_room		*delete_current(t_room *rooms, t_room *del);
 t_room		*remove_room(t_room *rooms, char *door);
 t_room		*remove_rooms(t_room *rooms, t_path *paths);
@@ -90,5 +93,6 @@ void		free_rooms(t_info **info);
 void		free_array(char **array);
 void		free_links(t_info **info);
 void		free_paths(t_paths **temp);
+void		error(void);
 
 #endif
